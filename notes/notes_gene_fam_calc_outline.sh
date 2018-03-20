@@ -30,6 +30,10 @@
   # Legumes
     aradu araip cajca cicar glyma lotja lupan medtr phavu tripr vigan vigra vigun arahy
 
+####################
+# The general outline of the procedure is ...
+
+
 # Get copies of proteome data sets. (Get copies rather than linking, because we will focus on just a subset).
 # NOTE: changes were made in many of these on 2017-05-09 for correspondence with CDS files
   mkdir 01_proteomes
