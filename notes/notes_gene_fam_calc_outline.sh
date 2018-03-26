@@ -413,7 +413,11 @@
 # Do alignments
   mkdir 13_align
   
-  nohup commands/do_align.ksh 12_family_fasta 13_align &
+  INDIR=12_family_fasta
+  OUTDIR=13_align
+  JOBMAX=20
+
+  nohup commands/do_align.ksh $INDIR $OUTDIR $JOBMAX &
 
 # separately retrieved and aligned  12_family_fasta/11246.17.16.16.1.0
 
@@ -2141,5 +2145,5 @@ bin   abcdefghijKLMNOPQRSTabcdefghijKLMNOPQRSTabcdefghijKLMNOPQRSTabcdefghijKLMN
     # mode at 16 (peak with counts>1000 spanning 14,15,16,17,18)
     # bins with counts > 100 span 1-36
     # there are 5401 families of size 1-4 ("small")
-    # there are 13131313131313131313131313 families of size >= 500 ("large")
+    # there are 13 families of size >= 500 ("large")
 
