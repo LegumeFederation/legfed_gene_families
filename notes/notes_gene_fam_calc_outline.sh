@@ -21,7 +21,6 @@
 #  synonymous_calc.py  calculating synonymous sequence changes - by Haibo Tang
 #  mcl        Markov clustering
 
-
 # Raw ingredients for the particular legume family calculations
 # Species lists (composed of the three first letters of the genus and two of the species, 
 # e.g. glyma = Glycine max
@@ -30,27 +29,49 @@
   # Legumes
   #   aradu araip cajca cicar glyma lotja lupan medtr phavu tripr vigan vigra vigun arahy
 
-####################
-# The basic outline of the procedure is ...
-# BLAST comparison among each pair of proteomes
-# Select top two matches for each gene (except for species self-comparisons). Use two two matches
-#   to model the whole-genome duplication near the origin of the family that affects all species
-#   in this analyis
-# For all of the top-two BLAST matches, calculate synonymous changes (Ks).
-# For each species pair, identify a Ks cutoff suitable for that species pair in the legumes. 
-#   This is generally 1.5*(median Ks) - but is manually evaluated for each species pair.
-# Also filter based on percent coverage and percent ID
-# Cluster the filtered data, using Markov clustering, and using the --abc option, on transformed Ks values
-# Generate alignments, then HMMs, then search all sequences against the HMMs, and realign.
-# Remove poorly-scoring members from families: sequences scoring less than 65% of the median family score.
-# of sequences initially placed in that family.
-# Re-cluster all remaining sequences, using slightly more lenient parameters:
-#   clustering at mcl -I 1.2
-# Then re-search ALL sequences against the combined family sets (initial + remaining).
-# Remove poorly-scoring family members: sequences scoring less than 40% of the median family score.
-# Regenerate HMMs, and align back to the HMMs. Clean alignments with respect to HMMs.
-# Calculate trees using RAxML, and root using the closest available outgroup species.
-
+#######################################################
+# Basic methods:
+#   All-by-all sequence search – keeping top two per query
+#   Refinement based on Ks, alignment length, identity
+#   Clustering
+#   Align, HMM, realign, score sequences within each family
+#   Remove poorly scoring outliers from families
+# 
+#   Repeat the above for leftovers
+# 
+#   Re-search all sequences against all families
+#     Align, HMM, realign, score sequences within each family
+#     Remove poorly scoring outliers from families
+#     Calculate cleaned alignments and (rooted) trees
+# 
+#######################################################
+# Somewhat more detailed methods:
+#   Generate gene-pair lists, with careful filtering
+#     BLAST comparison among each pair of proteomes (top 2 matches per gene).
+#     Calculate synonymous changes (Ks)
+#     Filter based on Ks, identity, and percent alignment length
+#     For each species pair, identify a Ks cutoff suitable for that species pair in the legumes. 
+#       This is generally 1.5*(median Ks) - but is manually evaluated for each species pair.
+# 
+#   Cluster
+#     Cluster the filtered data, using Markov clustering (mcl -I 1.1) on transformed Ks values
+# 
+#   Realign, remove poorly-scoring sequences
+#     Generate alignments, then HMMs, then search all sequences against the HMMs, and realign.
+#     Remove poorly-scoring members from families: sequences < 65% of the median family score.
+# 
+#   Handle remaining sequences, extending the gene family set
+#     Re-cluster all remaining sequences, using slightly more lenient parameters:
+#       clustering at mcl -I 1.2
+# 
+#   Then re-search ALL sequences against the combined family sets (initial + remaining).
+#     Remove poorly-scoring family members: sequences scoring less than 40% of the median family score.
+# 
+#   Calculate alignments and trees
+#     Regenerate HMMs, and align back to the HMMs. Clean alignments with respect to HMMs.
+#     Calculate trees using RAxML, and root using the closest available outgroup species.
+#
+#######################################################
 
 # Get copies of proteome data sets. (Get copies rather than linking, because we will focus on just a subset).
 # NOTE: changes were made in many of these on 2017-05-09 for correspondence with CDS files
