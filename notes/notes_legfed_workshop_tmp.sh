@@ -18,9 +18,13 @@
 
   git clone https://github.com/LegumeFederation/legfed_gene_families
 
+# Add some scripts to your PATH, for work in this session
+  PATH=$PATH:$PWD/legfed_gene_families/scripts
+
 # Move into the gene families directory and explore a bit
   cd legfed_gene_families
   head stats/*
+
 
 #####
 # Explore the "sequences per family" file
