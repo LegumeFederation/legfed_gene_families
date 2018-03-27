@@ -12,18 +12,20 @@
 # Do the work on your ~/Desktop (or elsewhere if you prefer)
   cd ~/Desktop
 
-# Get a couple of files from the Data Store, from public/Gene_families
-#   legume.genefam.fam1.M65K.info_fam_composition_list.tsv.gz
-#   legume.genefam.fam1.M65K.info_fam_composition_sum.tsv.gz
-
+# Get notes and some accessory files related to the legfed gene families.
   git clone https://github.com/LegumeFederation/legfed_gene_families
+
+# Open the notes for this session - either in a terminal or a text editor.
+  cd ~/Desktop/
+  vim legfed_gene_families/notes/notes_legfed_workshop_tmp.sh
 
 # Add some scripts to your PATH, for work in this session
   PATH=$PATH:$PWD/legfed_gene_families/scripts
 
 # Move into the gene families directory and explore a bit
   cd legfed_gene_families
-  head stats/*
+  head -1 stats/*
+  tail -1 stats/*
 
 
 #####
