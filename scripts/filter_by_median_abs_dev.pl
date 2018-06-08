@@ -13,6 +13,7 @@ use List::Util qw(max min);
 my ($hmm_file, $median_file, $no_MAD);
 my $ceil_pct_of_median = 95;
 my $floor_pct_of_median = 80;
+my $hmmsearch=0;
 my $help;
 
 GetOptions (
@@ -21,6 +22,7 @@ GetOptions (
   "cell_pct_of_median:i" =>  \$ceil_pct_of_median,
   "floor_pct_of_median:i" => \$floor_pct_of_median,
   "no_MAD"                => \$no_MAD,
+  "hmmsearch"             => \$hmmsearch,
   "help:s" =>              \$help
 );
 
@@ -88,8 +90,13 @@ while (<$HMMFH>) {
   my $line = $_;
   next if $line =~ /^$/;
   next if $line =~ /^#/;
-  my ($S_ID, $S_acc, $Q_ID, $Q_acc, $E_val, $score, @rest) = split(/\s+/, $line);
-
+  my ($S_ID, $S_acc, $Q_ID, $Q_acc, $E_val, $score, @rest);
+  if ($hmmsearch) {
+    ($Q_ID, $Q_acc, $S_ID, $S_acc, $E_val, $score, @rest) = split(/\s+/, $line);
+  }
+  else {
+    ($S_ID, $S_acc, $Q_ID, $Q_acc, $E_val, $score, @rest) = split(/\s+/, $line);
+  }
   # Set cutoff as the median-MAD unless median-MAD is too low or too high.
   # If $no_MAD is set, just use $floor_pct_of_median*$medians{$S_ID})/100
   my $cutoff;
